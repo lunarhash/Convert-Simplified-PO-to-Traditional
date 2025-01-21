@@ -1,99 +1,104 @@
-# PO檔案簡繁轉換工具
+# PO文件批量翻译工具
 
-這是一個用於將PO檔案中的簡體中文轉換為繁體中文的工具。本工具特別適用於需要處理大量翻譯文件的場景，可以保持原始檔案結構的同時，準確地將簡體中文轉換為繁體中文。
+这是一个使用Google翻译API批量翻译PO文件的Python脚本。本工具可以处理多达20,000行的大型PO文件，提供命令行和图形界面两种使用方式。
 
-## 功能特點
+## 功能特点
 
-- 完整保持PO檔案的原始結構
-- 只轉換翻譯文本（msgstr部分）
-- 使用OpenCC確保高品質的簡繁轉換
-- 支援大型PO檔案處理（10000行以上）
-- 保持檔案的行數和格式完全一致
-- 使用方便的命令列介面
+- 支持处理大型PO文件（最多20,000行）
+- 提供图形界面，支持拖放操作
+- 支持多种常用语言互译
+- 实时显示翻译进度
+- 内置访问频率限制，避免触发API限制
+- 错误处理机制，确保翻译过程不会中断
+- 保留PO文件格式和元数据
+- 支持免费翻译API，无需密钥
 
-## 安裝說明
+## 安装方法
 
-1. 確保已安裝Python 3.6或更高版本
-2. 克隆此專案：
+1. 克隆仓库：
 ```bash
-git clone https://github.com/yourusername/po-converter.git
-cd po-converter
+git clone https://github.com/yourusername/po-translator.git
+cd po-translator
 ```
 
-3. 安裝依賴套件：
+2. 安装所需的Python包:
 ```bash
 pip install -r requirements.txt
 ```
 
 ## 使用方法
 
-### 基本用法
-
+### 图形界面版本（推荐）
+运行图形界面程序：
 ```bash
-python po_converter.py input.po -o output.po
+python po_translator_gui.py
 ```
 
-### 參數說明
+使用步骤：
+1. 运行程序后会打开图形界面窗口
+2. 将PO文件拖入虚线框内，或点击"选择PO文件"按钮
+3. 在下拉菜单中选择源语言和目标语言
+4. 点击"开始翻译"按钮
+5. 等待翻译完成，可以在状态区域查看进度和结果
 
-- `input.po`：輸入的PO檔案路徑（必需）
-- `-o output.po`：輸出檔案路徑（可選，如果不指定將自動生成）
-
-### 使用範例
-
-1. 基本轉換：
+### 命令行版本
+基本用法：
 ```bash
-python po_converter.py messages.po -o messages_tw.po
+python po_translate.py input.po
 ```
 
-2. 不指定輸出檔案（將自動生成）：
+自定义语言：
 ```bash
-python po_converter.py messages.po
+python po_translate.py input.po --from-lang en --to-lang zh-tw
 ```
 
-## 注意事項
+## 支持的语言
 
-1. 轉換過程會保持以下內容不變：
-   - 檔案結構
-   - 註釋
-   - msgid（原文）
-   - 檔案格式和編碼
+常用的语言代码包括：
+- 简体中文 (zh-CN)
+- 繁体中文 (zh-TW)
+- 日语 (ja)
+- 韩语 (ko)
+- 英语 (en)
+- 法语 (fr)
+- 德语 (de)
+- 西班牙语 (es)
+- 俄语 (ru)
 
-2. 只會轉換 msgstr 開頭的行中的中文文本
+更多语言支持请参考 [Google翻译支持的语言](https://cloud.google.com/translate/docs/languages)
 
-3. 建議在轉換前先備份原始檔案
+## 参数说明
 
-## 常見問題
+命令行版本参数：
+- `input_file`: 输入PO文件的路径
+- `--from-lang`: 源语言代码（默认: en）
+- `--to-lang`: 目标语言代码（默认: zh-tw）
 
-Q: 為什麼要選擇這個工具？
-A: 本工具特別注重保持PO檔案的原始結構，這對於版本控制和差異比對特別重要。
+## 注意事项
 
-Q: 支援多大的檔案？
-A: 本工具已經過測試，可以處理超過10000行的大型PO檔案。
+1. 免费API可能有调用频率限制，脚本已内置了延迟机制
+2. 建议先用小文件测试，确认效果后再处理大文件
+3. 翻译完成后建议人工审核重要内容的翻译质量
+4. 如果使用图形界面版本，确保已安装PyQt6
 
-Q: 轉換是否準確？
-A: 使用OpenCC進行轉換，這是一個成熟的開源簡繁轉換引擎，具有較高的準確性。
+## 项目结构
 
-## 貢獻指南
+```
+po_translator/
+├── README.md          # 项目说明文档
+├── requirements.txt   # 项目依赖
+├── po_translate.py    # 命令行版本主程序
+├── po_translator_gui.py # 图形界面版本主程序
+├── .gitignore        # Git忽略文件
+├── LICENSE           # MIT许可证
+└── example/          # 示例文件目录
+    └── example.po    # 示例PO文件
+```
 
-歡迎提交問題報告和改進建議！請遵循以下步驟：
+## 贡献
 
-1. Fork 本專案
-2. 創建您的特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交您的更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 開啟一個 Pull Request
+欢迎提交 Issue 和 Pull Request！
 
-## 授權協議
+## 许可证
 
-本專案採用 MIT 授權協議 - 詳見 [LICENSE](LICENSE) 檔案
-
-## 聯絡方式
-
-如有任何問題或建議，歡迎通過以下方式聯絡：
-
-- 提交 Issue
-- 發送 Pull Request
-
-## 致謝
-
-感謝 OpenCC 專案提供優質的中文轉換引擎。
+MIT License

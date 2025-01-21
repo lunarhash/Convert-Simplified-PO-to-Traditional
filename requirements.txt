@@ -1,2 +1,4 @@
-polib>=1.1.1
-opencc-python-reimplemented>=0.1.7
+polib==1.2.0
+deep-translator==1.11.4
+tqdm==4.66.1
+PyQt6==6.4.2
